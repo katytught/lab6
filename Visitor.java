@@ -174,10 +174,22 @@ public class Visitor extends calcBaseVisitor<Void>{
                 if(clabel!=-1&&blabel!=-1){
                     results+="br label %t"+Tmid+"\n";
                 }
+                if(clabel==-1){
+                    clabel=0;
+                }
+                if(blabel==-1){
+                    blabel=0;
+                }
                 results+="t"+Tright+":\n";
                 visit(ctx.stmt(1));
                 if(clabel!=-1&&blabel!=-1){
                     results+="br label %t"+Tmid+"\n";
+                }
+                if(clabel==-1){
+                    clabel=0;
+                }
+                if(blabel==-1){
+                    blabel=0;
                 }
                 results+="t"+Tmid+":\n";
             }
@@ -209,6 +221,12 @@ public class Visitor extends calcBaseVisitor<Void>{
                 visit(ctx.stmt(0));
                 if(clabel!=-1&&blabel!=-1){
                     results+="br label %t"+Tmid+"\n";
+                }
+                if(clabel==-1){
+                    clabel=0;
+                }
+                if(blabel==-1){
+                    blabel=0;
                 }
                 results+="t"+Tmid+":\n";
             }
