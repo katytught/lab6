@@ -89,7 +89,7 @@ public class Main {
         while ((s = br.readLine()) != null){
             input.append(s);
         }
-//        System.out.println(input);
+        System.out.println(input);
         CharStream inputStream = CharStreams.fromString(input.toString());
         calcLexer lexer = new calcLexer(inputStream);
         CommonTokenStream tokenStream = new CommonTokenStream(lexer);
