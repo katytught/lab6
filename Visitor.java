@@ -171,7 +171,9 @@ public class Visitor extends calcBaseVisitor<Void>{
                 results+="br i1 %"+(Num-1)+", label %t"+Tleft+", label %t"+Tright+"\n";
                 results+="t"+Tleft+":\n";
                 visit(ctx.stmt(0));
-                results+="br label %t"+Tmid+"\n";
+                if(clabel!=-1&&blabel!=-1){
+                    results+="br label %t"+Tmid+"\n";
+                }
                 results+="t"+Tright+":\n";
                 visit(ctx.stmt(1));
                 if(clabel!=-1&&blabel!=-1){
