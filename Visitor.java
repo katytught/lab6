@@ -9,6 +9,7 @@ public class Visitor extends calcBaseVisitor<Void>{
     public boolean isglobal=false;
     public int blabel=0;
     public int clabel=0;
+    public int skip=0;
     public int T=0;
     public ArrayList<ArrayList> allconstlist = new ArrayList<ArrayList>();
     public ArrayList<ArrayList> alllist=new ArrayList<ArrayList>();
@@ -171,25 +172,19 @@ public class Visitor extends calcBaseVisitor<Void>{
                 results+="br i1 %"+(Num-1)+", label %t"+Tleft+", label %t"+Tright+"\n";
                 results+="t"+Tleft+":\n";
                 visit(ctx.stmt(0));
-                if(clabel!=-1&&blabel!=-1){
+                if(skip==0){
                     results+="br label %t"+Tmid+"\n";
                 }
-                if(clabel==-1){
-                    clabel=0;
-                }
-                if(blabel==-1){
-                    blabel=0;
+                if(skip>0){
+                    skip--;
                 }
                 results+="t"+Tright+":\n";
                 visit(ctx.stmt(1));
-                if(clabel!=-1&&blabel!=-1){
+                if(skip==0){
                     results+="br label %t"+Tmid+"\n";
                 }
-                if(clabel==-1){
-                    clabel=0;
-                }
-                if(blabel==-1){
-                    blabel=0;
+                if(skip>0){
+                    skip--;
                 }
                 results+="t"+Tmid+":\n";
             }
@@ -219,14 +214,11 @@ public class Visitor extends calcBaseVisitor<Void>{
                 results+="br i1 %"+(Num-1)+", label %t"+Tleft+", label %t"+Tmid+"\n";
                 results+="t"+Tleft+":\n";
                 visit(ctx.stmt(0));
-                if(clabel!=-1&&blabel!=-1){
+                if(skip==0){
                     results+="br label %t"+Tmid+"\n";
                 }
-                if(clabel==-1){
-                    clabel=0;
-                }
-                if(blabel==-1){
-                    blabel=0;
+                if(skip>0){
+                    skip--;
                 }
                 results+="t"+Tmid+":\n";
             }
@@ -268,11 +260,11 @@ public class Visitor extends calcBaseVisitor<Void>{
         }
         else if(ctx.getText().startsWith("break")){
             results+="br label %t"+blabel+"\n";
-            blabel=-1;
+            skip++;
         }
         else if(ctx.getText().startsWith("continue")){
             results+="br label %t"+clabel+"\n";
-            clabel=-1;
+            skip++;
         }
         else if(ctx.getText().startsWith("return")){
             String s=visitExp(ctx.exp());
